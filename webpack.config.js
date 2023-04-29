@@ -7,7 +7,7 @@ module.exports = {
   mode: 'production',
   plugins: [
     new MiniCssExtractPlugin(),
-    new HtmlWebpackPlugin({ template: 'src/index.html', favicon: 'src/assets/favicon.svg' }),
+    new HtmlWebpackPlugin({ template: 'src/index.html', favicon: 'src/assets/favicon.ico' }),
   ],
   module: {
     rules: [{ test: /\.scss$/i, use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'] }],
