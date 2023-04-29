@@ -10,6 +10,9 @@ module.exports = {
     new HtmlWebpackPlugin({ template: 'src/index.html', favicon: 'src/assets/favicon.ico' }),
   ],
   module: {
-    rules: [{ test: /\.scss$/i, use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'] }],
+    rules: [
+      { test: /\.scss$/i, use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'] },
+      { test: /\.(ogg|webm)$/i, type: 'asset' },
+    ],
   },
 };

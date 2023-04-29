@@ -1,14 +1,12 @@
 import { Component } from './Component';
 
 export class Key extends Component {
-  constructor(keyData, locale, className, parent) {
-    super('button', className, {}, parent);
-    this.label = new Component('span', `${className}-text`, {}, this);
-    this.data = keyData;
-    this.setKey(locale);
+  constructor(keyCode, keyData, className, parent) {
+    super('button', `${className} ${keyCode}`, {}, parent);
+    [this.code, this.data] = [keyCode, keyData];
   }
 
   setKey(locale, isShifted) {
-    this.label.node.textContent = this.data.locale[locale][isShifted ? 'shifted' : 'value'];
+    this.node.value = this.data.locale[locale][isShifted ? 'shifted' : 'value'];
   }
 }
