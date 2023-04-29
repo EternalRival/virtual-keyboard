@@ -50,6 +50,19 @@ body {
   font: {
     size: 3rem;
   }
+
+  .duck {
+    user-select: none;
+    cursor: pointer;
+    margin-left: 0.5rem;
+    transition: all 0.1s;
+    &:hover {
+      filter: brightness(1.25);
+    }
+    &:active {
+      filter: brightness(2);
+    }
+  }
 }
 
 .text-field {
@@ -150,6 +163,9 @@ body {
       }
     }
 
+    &:hover {
+      outline: 0.15rem solid yellow;
+    }
     &:active {
       transform: translate(0.1rem, 0.1rem) scale(0.97);
       filter: brightness(1.25);
@@ -159,4 +175,15 @@ body {
 
 .disclaimer {
   text-align: center;
+  user-select: none;
+  display: inline-block;
+  .combination {
+    cursor: pointer;
+    &:hover {
+      text-shadow: 0 0 0.05rem #000000bf;
+    }
+    &:active {
+      text-shadow: 0 0 0.1rem #000000bf;
+    }
+  }
 }
