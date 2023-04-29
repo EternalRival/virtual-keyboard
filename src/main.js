@@ -1,5 +1,6 @@
 import { Component, Keyboard } from './components';
 import './style.scss';
+import { Duck } from './components/Duck';
 
 class App {
   constructor(root) {
@@ -11,12 +12,15 @@ class App {
     const section = new Component('section', 'section');
     const textField = new Component('textarea', 'text-field', { autofocus: true, rows: 5 });
     const heading = new Component('h1', 'heading', { textContent: 'Virtual Keyboard' });
-    const duck = new Component('span', 'duck', { textContent: '🦆' });
+    const duck = new Duck();
     const keyboard = new Keyboard();
     const disclaimer = new Component('p', 'disclaimer', {
       innerText: 'The keyboard was created in the Windows 10 OS\nCombination for language switch: ',
     });
-    const combination = new Component('span', 'combination', { textContent: 'left ctrl[⎈] + alt[⎇] + shift[⇧]' });
+    const combination = new Component('span', 'combination', {
+      textContent: 'left ctrl[⎈] + alt[⎇] + shift[⇧]',
+      onclick: () => keyboard.switchLocale(),
+    });
 
     this.root.append(main.node);
     main.append(section);
