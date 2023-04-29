@@ -6,7 +6,7 @@ export class Duck extends Component {
 
   constructor(props, parent) {
     super('span', 'duck', { textContent: '🦆', ...props }, parent);
-    this.node.addEventListener('click', () => Duck.sayQuack());
+    this.node.addEventListener('mousedown', () => Duck.sayQuack());
   }
 
   static sayQuack() {
