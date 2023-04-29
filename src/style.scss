@@ -1,6 +1,14 @@
 @use 'sass:math';
 $font: 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', sans-serif;
 
+@mixin hover($selector) {
+  @media (hover: hover) and (pointer: fine) {
+    #{$selector}:hover {
+      @content;
+    }
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -56,7 +64,7 @@ body {
     cursor: pointer;
     margin-left: 0.5rem;
     transition: all 0.1s;
-    &:hover {
+    @include hover('&') {
       filter: brightness(1.25);
     }
     &:active {
@@ -93,33 +101,27 @@ body {
     height: $key-size;
     width: $key-size;
 
-    &:nth-child(16),
-    &:nth-child(29) {
+    &:has(.Tab, .Backslash) {
       width: 1.5 * ($key-size + $gap) - $gap;
     }
 
-    &:nth-child(30),
-    &:nth-child(55) {
+    &:has(.CapsLock, .ShiftRight) {
       width: 1.75 * ($key-size + $gap) - $gap;
     }
 
-    &:nth-child(42),
-    &:nth-child(43) {
+    &:has(.Enter, .ShiftLeft) {
       width: 2.25 * ($key-size + $gap) - $gap;
     }
 
-    &:nth-child(59) {
+    &:has(.Space) {
       width: 6 * ($key-size + $gap) - $gap;
     }
 
-    &:nth-child(56),
-    &:nth-child(57),
-    &:nth-child(58),
-    &:nth-child(60) {
+    &:has(.ControlLeft, .MetaLeft, .AltLeft, .AltRight) {
       width: math.div(21, 16) * ($key-size + $gap) - $gap;
     }
 
-    &:nth-child(64) {
+    &:has(.ControlRight) {
       width: 0.75 * ($key-size + $gap) - $gap;
     }
   }
@@ -139,20 +141,11 @@ body {
       0.5rem 1rem 1.25rem #0006;
     overflow: hidden;
 
-    &-text {
-      position: relative;
-      inset: -0.4rem -0.2rem;
-      color: white;
-      font: {
-        family: $font;
-        size: 1.5rem;
-      }
-    }
-
     &::before {
-      content: '';
+      content: attr(value);
       position: absolute;
       inset: 0.15rem 0.6rem 0.7rem 0.2rem;
+      line-height: 1.85;
       background: linear-gradient(90deg, #dbaf3f, #f4c245);
       box-shadow: -0.5rem -0.5rem 0.5rem #ffff8040, 0.5rem 0.25rem 0.5rem #00000026;
       border: {
@@ -161,14 +154,29 @@ body {
         bottom: 0.05rem solid #0004;
         top: 0.05rem solid #0009;
       }
+      color: white;
+      font: {
+        family: $font;
+        size: 1.5rem;
+      }
     }
 
-    &:hover {
-      outline: 0.15rem solid yellow;
+    @include hover('&') {
+      outline: 0.15rem solid #ff0;
     }
     &:active {
       transform: translate(0.1rem, 0.1rem) scale(0.97);
       filter: brightness(1.25);
+    }
+
+    &.ArrowLeft,
+    &.ArrowRight,
+    &.ArrowUp,
+    &.ArrowDown {
+      filter: grayscale(1);
+      &:active {
+        filter: grayscale(1) brightness(1.25);
+      }
     }
   }
 }
@@ -179,7 +187,7 @@ body {
   display: inline-block;
   .combination {
     cursor: pointer;
-    &:hover {
+    @include hover('&') {
       text-shadow: 0 0 0.05rem #000000bf;
     }
     &:active {
