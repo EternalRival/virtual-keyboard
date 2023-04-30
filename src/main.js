@@ -1,19 +1,20 @@
 import { Component, Keyboard } from './components';
-import './style.scss';
 import { Duck } from './components/Duck';
+import { TextField } from './components/TextField';
+import './style.scss';
 
 class App {
   constructor(root) {
     this.root = root;
   }
 
-  render() {
+  run() {
     const main = new Component('main', 'main');
     const section = new Component('section', 'section');
-    const textField = new Component('textarea', 'text-field', { autofocus: true, rows: 5 });
+    const textField = new TextField();
     const heading = new Component('h1', 'heading', { textContent: 'Virtual Keyboard' });
     const duck = new Duck();
-    const keyboard = new Keyboard();
+    const keyboard = new Keyboard(textField);
     const disclaimer = new Component('p', 'disclaimer', {
       innerText: 'The keyboard was created in the Windows 10 OS\nCombination for language switch: ',
     });
@@ -31,4 +32,4 @@ class App {
 }
 
 const app = new App(document.body);
-app.render();
+app.run();
