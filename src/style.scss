@@ -76,7 +76,6 @@ body {
 .text-field {
   outline: none;
   padding: 1rem;
-  width: 66%;
   font: {
     size: 1rem;
     family: 'Courier New', Courier, monospace;
@@ -164,7 +163,8 @@ body {
     @include hover('&') {
       outline: 0.15rem solid #ff0;
     }
-    &:active {
+    &:active,
+    &.active {
       transform: translate(0.1rem, 0.1rem) scale(0.97);
       filter: brightness(1.25);
     }
@@ -174,7 +174,8 @@ body {
     &.ArrowUp,
     &.ArrowDown {
       filter: grayscale(1);
-      &:active {
+      &:active,
+      &.active {
         filter: grayscale(1) brightness(1.25);
       }
     }
@@ -183,15 +184,15 @@ body {
 
 .disclaimer {
   text-align: center;
-  user-select: none;
-  display: inline-block;
   .combination {
+    user-select: none;
     cursor: pointer;
     @include hover('&') {
       text-shadow: 0 0 0.05rem #000000bf;
     }
     &:active {
       text-shadow: 0 0 0.1rem #000000bf;
+      translate: transform(1rem, 1rem);
     }
   }
 }
