@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { KeyMap } from '../assets/key-map';
 import { StorageService } from '../service/storage';
 import { Component } from './Component';
@@ -20,8 +19,8 @@ export class Keyboard extends Component {
   }
 
   init() {
-    window.addEventListener('keydown', (e) => this.getKeyNode(e.code)?.keydown(e));
-    window.addEventListener('keyup', (e) => this.getKeyNode(e.code)?.keyup(e));
+    window.addEventListener('keydown', (e) => this.getKey(e.code)?.keydown(e));
+    window.addEventListener('keyup', (e) => this.getKey(e.code)?.keyup(e));
   }
 
   renderLayout(isShifted) {
@@ -34,7 +33,7 @@ export class Keyboard extends Component {
     this.renderLayout();
   }
 
-  getKeyNode(keyCode) {
+  getKey(keyCode) {
     return this.keys.find(({ key }) => key.code === keyCode)?.key;
   }
 
