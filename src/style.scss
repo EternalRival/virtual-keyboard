@@ -167,7 +167,8 @@ body {
       outline: 0.15rem solid #ff0;
     }
     &:active,
-    &.active {
+    &.active,
+    &.toggled {
       transform: translate(0.1rem, 0.1rem) scale(0.97);
       filter: brightness(1.25);
     }
@@ -178,7 +179,8 @@ body {
     &.ArrowDown {
       filter: grayscale(1);
       &:active,
-      &.active {
+      &.active,
+      &.toggled {
         filter: grayscale(1) brightness(1.25);
       }
     }
