@@ -6,7 +6,12 @@ import { Key } from './Key';
 export class Keyboard extends Component {
   keys = new Map();
 
-  mods = { shift: false, caps: false, alt: false };
+  mods = {
+    ShiftLeft: false,
+    ShiftRight: false,
+    CapsLock: false,
+    AltLeft: false,
+  };
 
   constructor(textField, props, parent) {
     super('ul', 'keyboard', props, parent);
@@ -18,28 +23,36 @@ export class Keyboard extends Component {
       this.keys.set(code, key);
     });
 
-    this.handlers = {
+    this.mods = new Proxy(this.mods, {
+      get: (target, prop) => target[prop],
+      set: (target, prop, value) => {
+        Object.assign(target, { [prop]: value });
+        this.getNode(prop).classList[value ? 'add' : 'remove']('toggled');
+        this.renderLayout();
+        return true;
+      },
+    });
+
+    const handlers = {
       Backspace: () => textField.useAction('backspace'),
       Delete: () => textField.useAction('delete'),
       Tab: () => textField.useAction('tab'),
       Enter: () => textField.useAction('enter'),
-      CapsLock: (e) => {
-        this.mods.caps = !this.mods.caps;
-        e.target.classList[this.mods.caps ? 'add' : 'remove']('toggled');
-        this.renderLayout();
+      CapsLock: () => {
+        this.mods.CapsLock = !this.mods.CapsLock;
       },
-      ShiftLeft: (e) => {
-        this.mods.shift = !this.mods.shift;
-        e.target.classList[this.mods.shift ? 'add' : 'remove']('toggled');
-        // if (this.mods.alt) this.switchLocale();
-        this.renderLayout();
+      ShiftLeft: ({ repeat }) => {
+        this.mods.ShiftLeft = repeat || !this.mods.ShiftLeft;
+        if (this.mods.AltLeft) this.switchLocale();
       },
-      ShiftRight: () => {},
+      ShiftRight: ({ repeat }) => {
+        this.mods.ShiftRight = repeat || !this.mods.ShiftRight;
+      },
       ControlLeft: () => {},
       ControlRight: () => {},
-      AltLeft: (e) => {
-        this.mods.alt = !this.mods.alt;
-        e.target.classList[this.mods.alt ? 'add' : 'remove']('toggled');
+      AltLeft: () => {
+        this.mods.AltLeft = !this.mods.AltLeft;
+        if (this.mods.ShiftLeft) this.switchLocale();
       },
       AltRight: () => {},
       MetaLeft: () => {},
@@ -47,28 +60,57 @@ export class Keyboard extends Component {
       ArrowLeft: () => textField.useAction('left'),
       ArrowDown: () => textField.useAction('down'),
       ArrowRight: () => textField.useAction('right'),
-      default: (e) => textField.useAction('insert', e.target.value),
+      default: (e, { value }) => {
+        textField.useAction('insert', value);
+        if (!e.shiftKey) {
+          this.mods.ShiftLeft = false;
+          this.mods.ShiftRight = false;
+        }
+      },
     };
+    this.useHandler = (event, code, node) => (handlers[code] ?? handlers.default)(event, node);
 
     this.renderLayout();
     this.init();
   }
 
   init() {
-    window.addEventListener('keydown', (e) => this.keys.get(e.code)?.keydown(e));
-    window.addEventListener('keyup', (e) => this.keys.get(e.code)?.keyup(e));
-    this.keys.forEach(({ node }, code) => node.addEventListener('click', this.handlers[code] ?? this.handlers.default));
+    window.addEventListener('keydown', (e) => {
+      const node = this.getNode(e.code);
+      if (!node) return;
+      node.classList.add('active');
+      this.useHandler(e, e.code, node);
+      e.preventDefault();
+    });
+    window.addEventListener('keyup', (e) => {
+      const node = this.getNode(e.code);
+      if (!node) return;
+      if (e.code === 'ShiftLeft') this.mods.ShiftLeft = false;
+      if (e.code === 'ShiftRight') this.mods.ShiftRight = false;
+      node.classList.remove('active');
+      e.preventDefault();
+    });
+
+    this.keys.forEach(({ node }, code) => node.addEventListener('click', (e) => this.useHandler(e, code, node)));
   }
 
   renderLayout() {
-    this.keys.forEach((key) => key.setKey(Keyboard.locale, this.mods));
+    this.keys.forEach((key) => {
+      key.setKey(Keyboard.locale, {
+        shift: this.mods.ShiftLeft || this.mods.ShiftRight,
+        caps: this.mods.CapsLock,
+      });
+    });
   }
 
   switchLocale() {
     const locale = Keyboard.locale === 'en' ? 'ru' : 'en';
     Keyboard.locale = locale;
-    [this.mods.shift, this.mods.alt] = [false, false];
-    this.renderLayout();
+    [this.mods.ShiftLeft, this.mods.AltLeft] = [false, false];
+  }
+
+  getNode(name) {
+    return this.keys.get(name)?.node;
   }
 
   static set locale(locale) {

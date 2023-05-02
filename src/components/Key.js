@@ -14,15 +14,4 @@ export class Key extends Component {
     const newValue = this.data.locale[locale][shift ? 'shifted' : 'default'];
     this.node.value = caps ? newValue[shift ? 'toLowerCase' : 'toUpperCase']() : newValue;
   }
-
-  keydown(e) {
-    this.node.classList.add('active');
-    this.node.click();
-    e.preventDefault();
-  }
-
-  keyup(e) {
-    this.node.classList.remove('active');
-    e.preventDefault();
-  }
 }
