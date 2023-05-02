@@ -1,0 +1,365 @@
+/* Document
+ * ========================================================================== */
+
+/**
+ * 1. Add border box sizing in all browsers (opinionated).
+ * 2. Backgrounds do not repeat by default (opinionated).
+ */
+
+*,
+::before,
+::after {
+  box-sizing: border-box; /* 1 */
+  background-repeat: no-repeat; /* 2 */
+}
+
+/**
+ * 1. Add text decoration inheritance in all browsers (opinionated).
+ * 2. Add vertical alignment inheritance in all browsers (opinionated).
+ */
+
+::before,
+::after {
+  text-decoration: inherit; /* 1 */
+  vertical-align: inherit; /* 2 */
+}
+
+/**
+ * 1. Use the default cursor in all browsers (opinionated).
+ * 2. Change the line height in all browsers (opinionated).
+ * 3. Breaks words to prevent overflow in all browsers (opinionated).
+ * 4. Use a 4-space tab width in all browsers (opinionated).
+ * 5. Remove the grey highlight on links in iOS (opinionated).
+ * 6. Prevent adjustments of font size after orientation changes in iOS.
+ */
+
+:where(:root) {
+  cursor: default; /* 1 */
+  line-height: 1.5; /* 2 */
+  overflow-wrap: break-word; /* 3 */
+  -moz-tab-size: 4; /* 4 */
+  tab-size: 4; /* 4 */
+  -webkit-tap-highlight-color: transparent; /* 5 */
+  -webkit-text-size-adjust: 100%; /* 6 */
+}
+
+/* Sections
+ * ========================================================================== */
+
+/**
+ * Remove the margin in all browsers (opinionated).
+ */
+
+:where(body) {
+  margin: 0;
+}
+
+/**
+ * Correct the font size and margin on `h1` elements within `section` and
+ * `article` contexts in Chrome, Edge, Firefox, and Safari.
+ */
+
+:where(h1) {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+/* Grouping content
+ * ========================================================================== */
+
+/**
+ * Remove the margin on nested lists in Chrome, Edge, and Safari.
+ */
+
+:where(dl, ol, ul) :where(dl, ol, ul) {
+  margin: 0;
+}
+
+/**
+ * 1. Correct the inheritance of border color in Firefox.
+ * 2. Add the correct box sizing in Firefox.
+ */
+
+:where(hr) {
+  color: inherit; /* 1 */
+  height: 0; /* 2 */
+}
+
+/**
+ * Remove the list style on navigation lists in all browsers (opinionated).
+ */
+
+:where(nav) :where(ol, ul) {
+  list-style-type: none;
+  padding: 0;
+}
+
+/**
+ * Prevent VoiceOver from ignoring list semantics in Safari (opinionated).
+ */
+
+:where(nav li)::before {
+  content: "\200B";
+  float: left;
+}
+
+/**
+ * 1. Correct the inheritance and scaling of font size in all browsers.
+ * 2. Correct the odd `em` font sizing in all browsers.
+ * 3. Prevent overflow of the container in all browsers (opinionated).
+ */
+
+:where(pre) {
+  font-family: monospace, monospace; /* 1 */
+  font-size: 1em; /* 2 */
+  overflow: auto; /* 3 */
+}
+
+/* Text-level semantics
+ * ========================================================================== */
+
+/**
+ * Add the correct text decoration in Safari.
+ */
+
+:where(abbr[title]) {
+  text-decoration: underline;
+  text-decoration: underline dotted;
+}
+
+/**
+ * Add the correct font weight in Chrome, Edge, and Safari.
+ */
+
+:where(b, strong) {
+  font-weight: bolder;
+}
+
+/**
+ * 1. Correct the inheritance and scaling of font size in all browsers.
+ * 2. Correct the odd `em` font sizing in all browsers.
+ */
+
+:where(code, kbd, samp) {
+  font-family: monospace, monospace; /* 1 */
+  font-size: 1em; /* 2 */
+}
+
+/**
+ * Add the correct font size in all browsers.
+ */
+
+:where(small) {
+  font-size: 80%;
+}
+
+/* Embedded content
+ * ========================================================================== */
+
+/*
+ * Change the alignment on media elements in all browsers (opinionated).
+ */
+
+:where(audio, canvas, iframe, img, svg, video) {
+  vertical-align: middle;
+}
+
+/**
+ * Remove the border on iframes in all browsers (opinionated).
+ */
+
+:where(iframe) {
+  border-style: none;
+}
+
+/**
+ * Change the fill color to match the text color in all browsers (opinionated).
+ */
+
+:where(svg:not([fill])) {
+  fill: currentColor;
+}
+
+/* Tabular data
+ * ========================================================================== */
+
+/**
+ * 1. Collapse border spacing in all browsers (opinionated).
+ * 2. Correct table border color inheritance in all Chrome, Edge, and Safari.
+ * 3. Remove text indentation from table contents in Chrome, Edge, and Safari.
+ */
+
+:where(table) {
+  border-collapse: collapse; /* 1 */
+  border-color: inherit; /* 2 */
+  text-indent: 0; /* 3 */
+}
+
+/* Forms
+ * ========================================================================== */
+
+/**
+ * Remove the margin on controls in Safari.
+ */
+
+:where(button, input, select) {
+  margin: 0;
+}
+
+/**
+ * Correct the inability to style buttons in iOS and Safari.
+ */
+
+:where(button, [type="button" i], [type="reset" i], [type="submit" i]) {
+  -webkit-appearance: button;
+}
+
+/**
+ * Change the inconsistent appearance in all browsers (opinionated).
+ */
+
+:where(fieldset) {
+  border: 1px solid #a0a0a0;
+}
+
+/**
+ * Add the correct vertical alignment in Chrome, Edge, and Firefox.
+ */
+
+:where(progress) {
+  vertical-align: baseline;
+}
+
+/**
+ * 1. Remove the margin in Firefox and Safari.
+ * 3. Change the resize direction in all browsers (opinionated).
+ */
+
+:where(textarea) {
+  margin: 0; /* 1 */
+  resize: vertical; /* 3 */
+}
+
+/**
+ * 1. Correct the odd appearance in Chrome, Edge, and Safari.
+ * 2. Correct the outline style in Safari.
+ */
+
+:where([type="search" i]) {
+  -webkit-appearance: textfield; /* 1 */
+  outline-offset: -2px; /* 2 */
+}
+
+/**
+ * Correct the cursor style of increment and decrement buttons in Safari.
+ */
+
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button {
+  height: auto;
+}
+
+/**
+ * Correct the text style of placeholders in Chrome, Edge, and Safari.
+ */
+
+::-webkit-input-placeholder {
+  color: inherit;
+  opacity: 0.54;
+}
+
+/**
+ * Remove the inner padding in Chrome, Edge, and Safari on macOS.
+ */
+
+::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/**
+ * 1. Correct the inability to style upload buttons in iOS and Safari.
+ * 2. Change font properties to `inherit` in Safari.
+ */
+
+::-webkit-file-upload-button {
+  -webkit-appearance: button; /* 1 */
+  font: inherit; /* 2 */
+}
+
+/* Interactive
+ * ========================================================================== */
+
+/*
+ * Add the correct styles in Safari.
+ */
+
+:where(dialog) {
+  background-color: white;
+  border: solid;
+  color: black;
+  height: -moz-fit-content;
+  height: fit-content;
+  left: 0;
+  margin: auto;
+  padding: 1em;
+  position: absolute;
+  right: 0;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+:where(dialog:not([open])) {
+  display: none;
+}
+
+/*
+ * Add the correct display in Safari.
+ */
+
+:where(details > summary:first-of-type) {
+  display: list-item;
+}
+
+/* Accessibility
+ * ========================================================================== */
+
+/**
+ * Change the cursor on busy elements in all browsers (opinionated).
+ */
+
+:where([aria-busy="true" i]) {
+  cursor: progress;
+}
+
+/*
+ * Change the cursor on control elements in all browsers (opinionated).
+ */
+
+:where([aria-controls]) {
+  cursor: pointer;
+}
+
+/*
+ * Change the cursor on disabled, not-editable, or otherwise
+ * inoperable elements in all browsers (opinionated).
+ */
+
+:where([aria-disabled="true" i], [disabled]) {
+  cursor: not-allowed;
+}
+
+/*
+ * Change the display on visually hidden accessible elements
+ * in all browsers (opinionated).
+ */
+
+:where([aria-hidden="false" i][hidden]) {
+  display: initial;
+}
+
+:where([aria-hidden="false" i][hidden]:not(:focus)) {
+  clip: rect(0, 0, 0, 0);
+  position: absolute;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}html{font-family:"Segoe UI","Tahoma","Geneva","Verdana",sans-serif}body{margin:0;height:100%;min-height:100vh;width:100vw;display:flex;justify-content:center;align-items:center;background-image:radial-gradient(circle farthest-corner at 12.3% 19.3%, #5558da 0%, #5fd1f9 100.2%)}.bg-video{width:100%;height:100%;object-fit:cover;position:fixed;inset:0;z-index:-1}.section{max-width:80rem;padding:2rem;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:1rem;position:relative;overflow:hidden;border-radius:1rem}.section::before{content:"";position:absolute;inset:0;background-color:rgba(255,255,255,.7333333333);filter:blur(0.5rem);z-index:-1}.heading{font-size:3rem}.heading .duck{user-select:none;cursor:pointer;margin-left:.5rem;transition:all .1s}@media(hover: hover)and (pointer: fine){.heading .duck:hover{filter:brightness(1.25)}}.heading .duck:active{filter:brightness(2)}.text-field{outline:none;padding:1rem;tab-size:4;font-size:1.5rem;font-family:"Courier New",Courier,monospace}.keyboard{width:68.5rem;padding:1rem;box-shadow:0 0 0 .1rem rgba(0,0,0,.7490196078),.5rem 1rem 1.25rem rgba(0,0,0,.4);background:#f4c245;list-style:none;border-radius:.5rem;display:flex;flex-flow:row wrap;gap:.45rem}.keyboard__item{height:4rem;width:4rem}.keyboard__item:has(.Tab,.Backslash){width:6.225rem}.keyboard__item:has(.CapsLock,.ShiftRight){width:7.3375rem}.keyboard__item:has(.Enter,.ShiftLeft){width:9.5625rem}.keyboard__item:has(.Space){width:26.25rem}.keyboard__item:has(.ControlLeft,.MetaLeft,.AltLeft,.AltRight){width:5.390625rem}.keyboard__item:has(.ControlRight){width:2.8875rem}.keyboard__key{cursor:pointer;transition:all .1s;position:relative;padding:0;border:0;outline:0;border-radius:.5rem;display:block;width:inherit;height:inherit;background:linear-gradient(180deg, #f4c245, #fcca4d);box-shadow:inset -0.4rem 0 .4rem rgba(0,0,0,.1490196078),inset 0 -0.4rem .4rem rgba(0,0,0,.2509803922),0 0 0 .1rem rgba(0,0,0,.7490196078),.5rem 1rem 1.25rem rgba(0,0,0,.4);overflow:hidden}.keyboard__key::before{content:attr(value);position:absolute;inset:.15rem .6rem .7rem .2rem;line-height:1.85;background:linear-gradient(90deg, #dbaf3f, #f4c245);box-shadow:-0.5rem -0.5rem .5rem rgba(255,255,128,.2509803922),.5rem .25rem .5rem rgba(0,0,0,.1490196078);border-radius:.5rem;border-left:.05rem solid rgba(0,0,0,.2666666667);border-bottom:.05rem solid rgba(0,0,0,.2666666667);border-top:.05rem solid rgba(0,0,0,.6);color:#fff;font-family:"Segoe UI","Tahoma","Geneva","Verdana",sans-serif;font-size:1.5rem}@media(hover: hover)and (pointer: fine){.keyboard__key:hover{outline:.15rem solid #ff0}}.keyboard__key:active,.keyboard__key.active,.keyboard__key.toggled{transform:translate(0.1rem, 0.1rem) scale(0.97);filter:brightness(1.25)}.keyboard__key.ArrowLeft,.keyboard__key.ArrowRight,.keyboard__key.ArrowUp,.keyboard__key.ArrowDown{filter:grayscale(1)}.keyboard__key.ArrowLeft:active,.keyboard__key.ArrowLeft.active,.keyboard__key.ArrowLeft.toggled,.keyboard__key.ArrowRight:active,.keyboard__key.ArrowRight.active,.keyboard__key.ArrowRight.toggled,.keyboard__key.ArrowUp:active,.keyboard__key.ArrowUp.active,.keyboard__key.ArrowUp.toggled,.keyboard__key.ArrowDown:active,.keyboard__key.ArrowDown.active,.keyboard__key.ArrowDown.toggled{filter:grayscale(1) brightness(1.25)}.disclaimer{text-align:center;font-weight:500}.disclaimer .combination{user-select:none;cursor:pointer}@media(hover: hover)and (pointer: fine){.disclaimer .combination:hover{text-shadow:0 0 .05rem rgba(0,0,0,.7490196078)}}.disclaimer .combination:active{text-shadow:0 0 .1rem rgba(0,0,0,.7490196078);translate:transform(1rem, 1rem)}
