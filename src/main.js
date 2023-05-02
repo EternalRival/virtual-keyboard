@@ -1,6 +1,6 @@
-import { Component, Keyboard } from './components';
-import { Duck } from './components/Duck';
-import { TextField } from './components/TextField';
+import {
+  Duck, TextField, Background, Component, Keyboard,
+} from './components';
 import './style.scss';
 
 class App {
@@ -9,6 +9,7 @@ class App {
   }
 
   run() {
+    const background = new Background(document.body);
     const main = new Component('main', 'main');
     const section = new Component('section', 'section');
     const textField = new TextField();
@@ -19,11 +20,11 @@ class App {
       innerText: 'The keyboard was created in the Windows 10 OS\nCombination for language switch: ',
     });
     const combination = new Component('span', 'combination', {
-      textContent: 'left ctrl[⎈] + alt[⎇] + shift[⇧]',
+      textContent: 'left alt[⎇] + shift[⇧]',
       onclick: () => keyboard.switchLocale(),
     });
 
-    this.root.append(main.node);
+    this.root.append(background.node, main.node);
     main.append(section);
     heading.append(duck);
     disclaimer.append(combination);
