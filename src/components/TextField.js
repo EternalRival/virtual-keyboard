@@ -29,6 +29,7 @@ export class TextField extends Component {
   backspace() {
     const { selectionStart, selectionEnd, value } = this.node;
     const [start, end] = [selectionStart - (selectionStart === selectionEnd), selectionEnd];
+    if (!end) return;
     this.node.value = `${value.slice(0, start)}${value.slice(end)}`;
     this.node.selectionEnd = start;
   }
