@@ -12,10 +12,8 @@ export class TextField extends Component {
   }
 
   insert(text) {
-    const { selectionStart, selectionEnd, value } = this.node;
-    const [start, end] = [selectionStart, selectionEnd];
-    this.node.value = `${value.slice(0, start)}${text}${value.slice(end)}`;
-    this.node.selectionEnd = start + text.length;
+    const { selectionStart, selectionEnd } = this.node;
+    this.node.setRangeText(text, selectionStart, selectionEnd, 'end');
   }
 
   enter() {
@@ -27,18 +25,14 @@ export class TextField extends Component {
   }
 
   backspace() {
-    const { selectionStart, selectionEnd, value } = this.node;
-    const [start, end] = [selectionStart - (selectionStart === selectionEnd), selectionEnd];
-    if (!end) return;
-    this.node.value = `${value.slice(0, start)}${value.slice(end)}`;
-    this.node.selectionEnd = start;
+    const { selectionStart, selectionEnd } = this.node;
+    if (!selectionEnd) return;
+    this.node.setRangeText('', selectionStart - (selectionStart === selectionEnd), selectionEnd, 'end');
   }
 
   delete() {
-    const { selectionStart, selectionEnd, value } = this.node;
-    const [start, end] = [selectionStart, selectionEnd + (selectionStart === selectionEnd)];
-    this.node.value = `${value.slice(0, start)}${value.slice(end)}`;
-    this.node.selectionEnd = start;
+    const { selectionStart, selectionEnd } = this.node;
+    this.node.setRangeText('', selectionStart, selectionEnd + (selectionStart === selectionEnd), 'end');
   }
 
   left() {
