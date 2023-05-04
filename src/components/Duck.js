@@ -1,5 +1,5 @@
 import { Component } from './Component';
-import Quack from '../assets/quack.webm';
+import Quack from '../assets/quack.ogg';
 
 export class Duck extends Component {
   static quack = new Audio(Quack);

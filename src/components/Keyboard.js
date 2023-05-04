@@ -1,74 +1,76 @@
-import { KeyMap } from '../assets/key-map';
+import { KeyMapEn, KeyMapRu } from '../assets/locales';
 import { StorageService } from '../service/storage';
 import { Component } from './Component';
 import { Key } from './Key';
 
 export class Keyboard extends Component {
+  locales = new Map([
+    ['en', KeyMapEn],
+    ['ru', KeyMapRu],
+  ]);
+
   keys = new Map();
 
-  mods = {
-    ShiftLeft: false,
-    ShiftRight: false,
-    CapsLock: false,
-    AltLeft: false,
-  };
+  mods = new Map([
+    ['ShiftLeft', false],
+    ['ShiftRight', false],
+    ['CapsLock', false],
+    ['AltLeft', false],
+  ]);
 
   constructor(textField, props, parent) {
     super('ul', 'keyboard', props, parent);
     this.textField = textField;
 
-    KeyMap.forEach((data, code) => {
+    KeyMapEn.forEach((_, code) => {
       const item = new Component('li', 'keyboard__item', null, this.node);
-      const key = new Key(code, data, 'keyboard__key', item.node);
+      const key = new Key(code, 'keyboard__key', item.node);
       this.keys.set(code, key);
     });
 
     this.mods = new Proxy(this.mods, {
-      get: (target, prop) => target[prop],
+      get: (target, prop) => target.get(prop),
       set: (target, prop, value) => {
-        Object.assign(target, { [prop]: value });
-        this.getNode(prop).classList[value ? 'add' : 'remove']('toggled');
+        target.set(prop, value);
+        this.getKeyNode(prop).classList[value ? 'add' : 'remove']('toggled');
         this.renderLayout();
         return true;
       },
     });
 
-    const handlers = {
-      Backspace: () => textField.useAction('backspace'),
-      Delete: () => textField.useAction('delete'),
-      Tab: () => textField.useAction('tab'),
-      Enter: () => textField.useAction('enter'),
-      CapsLock: () => {
+    const handlers = new Map([
+      ['Backspace', () => textField.useAction('backspace')],
+      ['Delete', () => textField.useAction('delete')],
+      ['Tab', () => textField.useAction('tab')],
+      ['Enter', () => textField.useAction('enter')],
+      ['CapsLock', () => {
         this.mods.CapsLock = !this.mods.CapsLock;
-      },
-      ShiftLeft: ({ repeat }) => {
+      }],
+      ['ShiftLeft', ({ repeat }) => {
         this.mods.ShiftLeft = repeat || !this.mods.ShiftLeft;
         if (this.mods.AltLeft) this.switchLocale();
-      },
-      ShiftRight: ({ repeat }) => {
+      }],
+      ['ShiftRight', ({ repeat }) => {
         this.mods.ShiftRight = repeat || !this.mods.ShiftRight;
-      },
-      ControlLeft: () => {},
-      ControlRight: () => {},
-      AltLeft: () => {
+      }],
+      ['ControlLeft', () => {}],
+      ['ControlRight', () => {}],
+      ['AltLeft', () => {
         this.mods.AltLeft = !this.mods.AltLeft;
         if (this.mods.ShiftLeft) this.switchLocale();
-      },
-      AltRight: () => {},
-      MetaLeft: () => {},
-      ArrowUp: () => textField.useAction('up'),
-      ArrowLeft: () => textField.useAction('left'),
-      ArrowDown: () => textField.useAction('down'),
-      ArrowRight: () => textField.useAction('right'),
-      default: (e, { value }) => {
+      }],
+      ['AltRight', () => {}],
+      ['MetaLeft', () => {}],
+      ['ArrowUp', () => textField.useAction('up')],
+      ['ArrowLeft', () => textField.useAction('left')],
+      ['ArrowDown', () => textField.useAction('down')],
+      ['ArrowRight', () => textField.useAction('right')],
+      ['default', (e, { value }) => {
         textField.useAction('insert', value);
-        if (!e.shiftKey) {
-          this.mods.ShiftLeft = false;
-          this.mods.ShiftRight = false;
-        }
-      },
-    };
-    this.useHandler = (event, code, node) => (handlers[code] ?? handlers.default)(event, node);
+        if (!e.shiftKey) [this.mods.ShiftLeft, this.mods.ShiftRight] = [false, false];
+      }],
+    ]);
+    this.useHandler = (event, code, node) => (handlers.get(code) ?? handlers.get('default'))(event, node);
 
     this.renderLayout();
     this.init();
@@ -76,17 +78,16 @@ export class Keyboard extends Component {
 
   init() {
     window.addEventListener('keydown', (e) => {
-      const node = this.getNode(e.code);
+      const node = this.getKeyNode(e.code);
       if (!node) return;
-      node.classList.add('active');
       this.useHandler(e, e.code, node);
+      node.classList.add('active');
       e.preventDefault();
     });
     window.addEventListener('keyup', (e) => {
-      const node = this.getNode(e.code);
+      const node = this.getKeyNode(e.code);
       if (!node) return;
-      if (e.code === 'ShiftLeft') this.mods.ShiftLeft = false;
-      if (e.code === 'ShiftRight') this.mods.ShiftRight = false;
+      if (['ShiftLeft', 'ShiftRight'].includes(e.code)) this.mods[e.code] = false;
       node.classList.remove('active');
       e.preventDefault();
     });
@@ -95,29 +96,22 @@ export class Keyboard extends Component {
   }
 
   renderLayout() {
+    const [caps, shift] = [this.mods.CapsLock, this.mods.ShiftLeft || this.mods.ShiftRight];
+    const locale = this.locales.get(StorageService.get('locale', 'en'));
+
     this.keys.forEach((key) => {
-      key.setKey(Keyboard.locale, {
-        shift: this.mods.ShiftLeft || this.mods.ShiftRight,
-        caps: this.mods.CapsLock,
-      });
+      const { code, node } = key;
+      const newValue = locale.get(code)[shift ? 'shifted' : 'default'];
+      node.value = caps ? newValue[shift ? 'toLowerCase' : 'toUpperCase']() : newValue;
     });
   }
 
   switchLocale() {
-    const locale = Keyboard.locale === 'en' ? 'ru' : 'en';
-    Keyboard.locale = locale;
+    StorageService.set('locale', StorageService.get('locale', 'en') === 'en' ? 'ru' : 'en');
     [this.mods.ShiftLeft, this.mods.AltLeft] = [false, false];
   }
 
-  getNode(name) {
+  getKeyNode(name) {
     return this.keys.get(name)?.node;
-  }
-
-  static set locale(locale) {
-    StorageService.set('locale', locale);
-  }
-
-  static get locale() {
-    return StorageService.get('locale', 'en');
   }
 }

@@ -12,7 +12,7 @@ module.exports = {
   module: {
     rules: [
       { test: /\.scss$/i, use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'] },
-      { test: /\.(ogg|webm|mp4|jpg)$/i, type: 'asset' },
+      { test: /\.(ogg|mp4|jpg)$/i, type: 'asset' },
     ],
   },
   performance: { hints: false },

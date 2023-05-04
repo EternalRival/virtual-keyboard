@@ -1,5 +1,5 @@
 import {
-  Duck, TextField, Background, Component, Keyboard,
+  Duck, InputField, Background, Component, Keyboard,
 } from './components';
 import './style.scss';
 
@@ -12,7 +12,7 @@ class App {
     const background = new Background(document.body);
     const main = new Component('main', 'main');
     const section = new Component('section', 'section');
-    const textField = new TextField();
+    const textField = new InputField();
     const heading = new Component('h1', 'heading', { textContent: 'Virtual Keyboard' });
     const duck = new Duck();
     const keyboard = new Keyboard(textField);
