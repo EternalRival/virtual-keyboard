@@ -1,9 +1,8 @@
 export class Component {
-  constructor(tag, className, props, parent) {
+  constructor(tag, className, props) {
     const node = document.createElement(tag);
     if (className) node.className = className;
     if (props) Object.assign(node, props);
-    if (parent) parent.append(node);
     this.node = node;
   }
 

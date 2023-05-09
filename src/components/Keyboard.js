@@ -18,13 +18,15 @@ export class Keyboard extends Component {
     ['AltLeft', false],
   ]);
 
-  constructor(textField, props, parent) {
-    super('ul', 'keyboard', props, parent);
+  constructor(textField, props) {
+    super('ul', 'keyboard', props);
     this.textField = textField;
 
     KeyMapEn.forEach((_, code) => {
-      const item = new Component('li', 'keyboard__item', null, this.node);
-      const key = new Key(code, 'keyboard__key', item.node);
+      const item = new Component('li', 'keyboard__item');
+      const key = new Key(code, 'keyboard__key');
+      this.append(item);
+      item.append(key);
       this.keys.set(code, key);
     });
 

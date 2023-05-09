@@ -9,7 +9,7 @@ class App {
   }
 
   run() {
-    const background = new Background(document.body);
+    const background = new Background();
     const main = new Component('main', 'main');
     const section = new Component('section', 'section');
     const textField = new InputField();

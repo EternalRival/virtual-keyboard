@@ -1,8 +1,8 @@
 import { Component } from './Component';
 
 export class InputField extends Component {
-  constructor(className, props, parent) {
-    super('textarea', className || 'text-field', { autofocus: true, ...{ rows: 4, cols: 60 }, ...props }, parent);
+  constructor(className, props) {
+    super('textarea', className || 'text-field', { autofocus: true, ...{ rows: 4, cols: 60 }, ...props });
   }
 
   useAction(name, ...args) {
