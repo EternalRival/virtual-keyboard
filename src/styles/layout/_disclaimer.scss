@@ -1,0 +1,15 @@
+.disclaimer {
+  text-align: center;
+  font-weight: 500;
+  .combination {
+    user-select: none;
+    cursor: pointer;
+    @include hover("&") {
+      text-shadow: 0 0 0.05rem #000000bf;
+    }
+    &:active {
+      text-shadow: 0 0 0.1rem #000000bf;
+      translate: transform(1rem, 1rem);
+    }
+  }
+}

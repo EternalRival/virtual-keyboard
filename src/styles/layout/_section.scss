@@ -1,0 +1,20 @@
+.section {
+  max-width: 80rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: #fffb;
+    filter: blur(0.5rem);
+    z-index: -1;
+  }
+}
