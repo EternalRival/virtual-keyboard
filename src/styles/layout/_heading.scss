@@ -1,0 +1,18 @@
+.heading {
+  font: {
+    size: 3rem;
+  }
+
+  .duck {
+    user-select: none;
+    cursor: pointer;
+    margin-left: 0.5rem;
+    transition: all 0.1s;
+    @include hover("&") {
+      filter: brightness(1.25);
+    }
+    &:active {
+      filter: brightness(2);
+    }
+  }
+}

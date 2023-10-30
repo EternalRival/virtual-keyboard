@@ -1,0 +1,106 @@
+@use 'sass:math';
+
+.keyboard {
+  $gap: 0.45rem;
+  $key-size: 4rem;
+
+  width: 15 * ($key-size + $gap) - $gap + 2.2rem;
+  padding: 1rem;
+  box-shadow: 0 0 0 0.1rem #000000bf, 0.5rem 1rem 1.25rem #0006;
+  background: #f4c245;
+  list-style: none;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-flow: row wrap;
+  gap: $gap;
+
+  &__item {
+    height: $key-size;
+    width: $key-size;
+
+    &:has(.Tab, .Backslash) {
+      width: 1.5 * ($key-size + $gap) - $gap;
+    }
+
+    &:has(.CapsLock, .ShiftRight) {
+      width: 1.75 * ($key-size + $gap) - $gap;
+    }
+
+    &:has(.Enter, .ShiftLeft) {
+      width: 2.25 * ($key-size + $gap) - $gap;
+    }
+
+    &:has(.Space) {
+      width: 6 * ($key-size + $gap) - $gap;
+    }
+
+    &:has(.ControlLeft, .MetaLeft, .AltLeft, .AltRight) {
+      width: math.div(21, 16) * ($key-size + $gap) - $gap;
+    }
+
+    &:has(.ControlRight) {
+      width: 0.75 * ($key-size + $gap) - $gap;
+    }
+  }
+
+  &__key {
+    cursor: pointer;
+    transition: all 0.1s;
+    position: relative;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    border-radius: 0.5rem;
+    display: block;
+    width: inherit;
+    height: inherit;
+    background: linear-gradient(180deg, #f4c245, #fcca4d);
+    box-shadow: inset -0.4rem 0 0.4rem #00000026,
+      inset 0 -0.4rem 0.4rem #00000040, 0 0 0 0.1rem #000000bf,
+      0.5rem 1rem 1.25rem #0006;
+    overflow: hidden;
+
+    &::before {
+      content: attr(value);
+      position: absolute;
+      inset: 0.15rem 0.6rem 0.7rem 0.2rem;
+      line-height: 1.85;
+      background: linear-gradient(90deg, #dbaf3f, #f4c245);
+      box-shadow: -0.5rem -0.5rem 0.5rem #ffff8040,
+        0.5rem 0.25rem 0.5rem #00000026;
+      border: {
+        radius: 0.5rem;
+        left: 0.05rem solid #0004;
+        bottom: 0.05rem solid #0004;
+        top: 0.05rem solid #0009;
+      }
+      color: white;
+      font: {
+        family: $font;
+        size: 1.5rem;
+      }
+    }
+
+    @include hover("&") {
+      outline: 0.15rem solid #ff0;
+    }
+    &:active,
+    &.active,
+    &.toggled {
+      transform: translate(0.1rem, 0.1rem) scale(0.97);
+      filter: brightness(1.25);
+    }
+
+    &.ArrowLeft,
+    &.ArrowRight,
+    &.ArrowUp,
+    &.ArrowDown {
+      filter: grayscale(1);
+      &:active,
+      &.active,
+      &.toggled {
+        filter: grayscale(1) brightness(1.25);
+      }
+    }
+  }
+}
